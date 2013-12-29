@@ -9,15 +9,11 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @author Wittakarn
  */
-@Data
-@Slf4j
 @Named
 @ConversationScoped
 public class InputBean implements Serializable{

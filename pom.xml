@@ -16,9 +16,7 @@
 
         <my.junit>4.11</my.junit>
         <my.javaee.api>7.0</my.javaee.api>
-        <my.lombok>0.11.6</my.lombok>
         <my.commons.beanutils>1.8.3</my.commons.beanutils>
-        <my.org.slf4j>1.7.5</my.org.slf4j>
         <my.graph-plugin>1.30</my.graph-plugin>
     </properties>
 
@@ -310,21 +308,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${my.lombok}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>${my.commons.beanutils}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${my.org.slf4j}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
