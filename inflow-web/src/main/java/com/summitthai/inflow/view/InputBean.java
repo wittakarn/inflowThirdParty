@@ -6,6 +6,7 @@
 package com.summitthai.inflow.view;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
@@ -20,6 +21,8 @@ public class InputBean implements Serializable{
 
     private static final long serialVersionUID = 1L;
     
+    private static final Logger logger = Logger.getLogger(InputBean.class.getName());
+    
     private String name;
     private String surname;
 
@@ -30,5 +33,36 @@ public class InputBean implements Serializable{
 
     @PostConstruct
     public void init() {
+        logger.info("Begin init...");
     }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the surname
+     */
+    public String getSurname() {
+        return surname;
+    }
+
+    /**
+     * @param surname the surname to set
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+    
+    
 }
