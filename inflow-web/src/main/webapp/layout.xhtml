@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:view contentType="text/html" locale="th_TH" encoding="UTF-8">
+        <h:head>
+            <title>Menu inflow third party</title>
+        </h:head>
+        <h:body>
+            <p:layout id="layout" fullPage="true">  
+                <p:layoutUnit position="west" >  
+                    <h:form id="formw" enctype="multipart/form-data">
+                        <p:menu>
+                            <p:submenu label="Reports">
+                                <p:menuitem value="Invoice" outcome="/pages/CriteriaInvoice.xhtml" icon="ui-icon-star"/>  
+                            </p:submenu>  
+                        </p:menu>  
+                    </h:form>  
+                </p:layoutUnit>  
+
+                <p:layoutUnit position="center">
+                    <h:form id="formc" enctype="multipart/form-data">
+                        <ui:insert name="content" />
+                    </h:form>
+                </p:layoutUnit>  
+            </p:layout> 
+        </h:body>
+    </f:view>
+
+</html>

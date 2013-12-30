@@ -8,7 +8,7 @@
         <session-timeout>30</session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>input.xhtml</welcome-file>
+        <welcome-file>main.xhtml</welcome-file>
     </welcome-file-list>
 	
     <servlet>
