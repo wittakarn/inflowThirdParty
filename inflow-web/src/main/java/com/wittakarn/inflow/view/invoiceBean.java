@@ -8,9 +8,9 @@ package com.wittakarn.inflow.view;
 import com.wittakarn.inflow.entity.BASECustomer;
 import com.wittakarn.inflow.interfaces.InvoiceServiceable;
 import com.wittakarn.inflow.jasper.JasperContext;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -18,12 +18,10 @@ import javax.ejb.EJB;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperRunManager;
 
 /**
  *
@@ -52,19 +50,22 @@ public class invoiceBean implements Serializable {
     }
 
     public void manipolateData(ActionEvent event) {
+        List<BASECustomer> bcList = null;
         try {
             logger.info("baseCustomer.getCustomerId : " + baseCustomer.getCustomerId());
 
             baseCustomer = invoiceServiceable.serchCustomer(baseCustomer);
 
-            logger.info("baseCustomer.getName : " + baseCustomer.getName());
+//            bcList = invoiceServiceable.serchALLCustomer();
 
-            HashMap<String, Object> parameters = new HashMap<>();
+            HashMap<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("Name", baseCustomer.getName());
             parameters.put("Address1", baseCustomer.getAddress1());
             parameters.put("Address2", baseCustomer.getAddress2());
+            
+            logger.info("parameters.get(\"Name\") : " + parameters.get("Name"));
 
-            JasperPrint print = JasperContext.initJasperContext("D:\\JavaProjects\\ireportFiles\\invoiceReport.jasper", parameters, null);
+            JasperPrint print = JasperContext.initJasper("D:\\JavaProjects\\ireportFiles\\reportInvoice.jasper", parameters, bcList);
             JasperContext.printPDF(print, getServletOutputStream());
             FacesContext.getCurrentInstance().responseComplete(); 
         } catch (Exception ex) {
@@ -75,7 +76,7 @@ public class invoiceBean implements Serializable {
     private ServletOutputStream getServletOutputStream() throws Exception {
         FacesContext faceContext = FacesContext.getCurrentInstance();
         HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
-        response.setHeader("Content-disposition", "attachment; filename=invoice.pdf");
+        //response.setHeader("Content-disposition", "attachment; filename=invoice.pdf");
         
         return response.getOutputStream();
     }

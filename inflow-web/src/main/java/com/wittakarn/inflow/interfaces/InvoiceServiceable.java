@@ -8,6 +8,7 @@ package com.wittakarn.inflow.interfaces;
 
 import com.wittakarn.inflow.entity.BASECustomer;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -17,4 +18,6 @@ import javax.ejb.Remote;
 @Remote
 public interface InvoiceServiceable extends Serializable{
     public BASECustomer serchCustomer(BASECustomer bc) throws Exception;
+    
+    public List<BASECustomer> serchALLCustomer() throws Exception;
 }

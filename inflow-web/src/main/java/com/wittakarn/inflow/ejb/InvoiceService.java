@@ -7,6 +7,7 @@ package com.wittakarn.inflow.ejb;
 
 import com.wittakarn.inflow.entity.BASECustomer;
 import com.wittakarn.inflow.interfaces.InvoiceServiceable;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,5 +27,10 @@ public class InvoiceService implements InvoiceServiceable {
     @Override
     public BASECustomer serchCustomer(BASECustomer bc) throws Exception{
         return em.find(BASECustomer.class, bc.getCustomerId());
+    }
+
+    @Override
+    public List<BASECustomer> serchALLCustomer() throws Exception {
+        return em.createQuery("SELECT b FROM BASECustomer b").getResultList();
     }
 }
