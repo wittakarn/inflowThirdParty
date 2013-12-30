@@ -18,6 +18,9 @@
         <my.javaee.api>7.0</my.javaee.api>
         <my.commons.beanutils>1.8.3</my.commons.beanutils>
         <my.graph-plugin>1.30</my.graph-plugin>
+        <my.jasperreports>5.5.0</my.jasperreports>
+        <my.itext>5.4.5</my.itext>
+        <my.beanutils>1.9.0</my.beanutils>
     </properties>
 
     <build>
@@ -271,6 +274,30 @@
                     <groupId>javax.faces</groupId>
                     <artifactId>jsf-api</artifactId>
                     <version>${my.javax.faces}</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>net.sf.jasperreports</groupId>
+                    <artifactId>jasperreports</artifactId>
+                    <version>${my.jasperreports}</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.itextpdf</groupId>
+                    <artifactId>itext-pdfa</artifactId>
+                    <version>${my.itext}</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.itextpdf</groupId>
+                    <artifactId>itext-xtra</artifactId>
+                    <version>${my.itext}</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>commons-beanutils</groupId>
+                    <artifactId>commons-beanutils</artifactId>
+                    <version>${my.beanutils}</version>
                     <scope>compile</scope>
                 </dependency>
             </dependencies>
