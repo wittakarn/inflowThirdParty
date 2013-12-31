@@ -88,7 +88,7 @@ public class InvoiceBean implements Serializable {
             
             for (Iterator<SOSalesOrderLine> it = orderLine.iterator(); it.hasNext();) {
                 SOSalesOrderLine sOSalesOrderLine = it.next();
-                logger.log(Level.INFO, "sOSalesOrderLine.getProdId().getName() : {0}", sOSalesOrderLine.getProdId().getName());
+                sOSalesOrderLine.refreshData();
             }
             
             HashMap<String, Object> parameters = new HashMap<>();

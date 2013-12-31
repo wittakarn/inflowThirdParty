@@ -12,7 +12,6 @@ import com.wittakarn.inflow.interfaces.InvoiceServiceable;
 import com.wittakarn.inflow.model.CustomerForm;
 import com.wittakarn.inflow.query.BASECustomerQuery;
 import com.wittakarn.inflow.query.SOSalesOrderLineQuery;
-import com.wittakarn.inflow.query.SOSalesOrderQuery;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;

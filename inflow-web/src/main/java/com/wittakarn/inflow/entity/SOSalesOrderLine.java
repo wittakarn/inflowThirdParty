@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -104,6 +105,10 @@ public class SOSalesOrderLine implements Serializable {
     @JoinColumn(name = "ItemTaxCodeId", referencedColumnName = "ItemTaxCodeId")
     @ManyToOne(optional = false)
     private BASEItemTaxCode itemTaxCodeId;
+    @Transient
+    private String productName;
+    @Transient
+    private String codeName;
 
     public SOSalesOrderLine() {
     }
@@ -271,4 +276,36 @@ public class SOSalesOrderLine implements Serializable {
         return "com.summitthai.inflow.entity.SOSalesOrderLine[ salesOrderLineId=" + salesOrderLineId + " ]";
     }
     
+    public void refreshData(){
+        this.setProductName(prodId.getName());
+        this.setCodeName(itemTaxCodeId.getCode());
+    }
+
+    /**
+     * @return the productName
+     */
+    public String getProductName() {
+        return productName;
+    }
+
+    /**
+     * @param productName the productName to set
+     */
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    /**
+     * @return the codeName
+     */
+    public String getCodeName() {
+        return codeName;
+    }
+
+    /**
+     * @param codeName the codeName to set
+     */
+    public void setCodeName(String codeName) {
+        this.codeName = codeName;
+    }
 }
