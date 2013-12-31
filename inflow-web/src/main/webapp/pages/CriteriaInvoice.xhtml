@@ -77,11 +77,10 @@
 
                 <p:column> 
                     <p:commandButton
-                        process="@this"
-                        update="@this"
                         value="พิมพ์"
                         actionListener="#{invoiceBean.manipolateData}"
-                        immediate="true"
+                        ajax="false"
+                        onclick="this.form.target='_blank'"
                         > 
                         <f:attribute name="customerSelected" value="#{order}" />
                     </p:commandButton>
@@ -89,12 +88,6 @@
 
             </p:dataTable>  
         </p:panel>
-        <p:commandButton
-            value="พิมพ์"
-            actionListener="#{invoiceBean.manipolateData}"
-            ajax="false"
-            >
-        </p:commandButton> 
     </ui:define>
 
 </ui:composition>
