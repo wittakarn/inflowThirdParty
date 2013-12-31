@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportInvoice" pageWidth="610" pageHeight="792" columnWidth="570" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f7c32209-5229-4a6f-a383-a766e813c44c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Name" class="java.lang.String"/>
+	<parameter name="Address1" class="java.lang.String"/>
+	<parameter name="Address2" class="java.lang.String"/>
+	<parameter name="Picture" class="java.io.InputStream"/>
+	<parameter name="Phone" class="java.lang.String"/>
+	<parameter name="Fax" class="java.lang.String"/>
+	<parameter name="TaxNumber" class="java.lang.String"/>
+	<parameter name="OrderNumber" class="java.lang.String"/>
+	<parameter name="OrderDate" class="java.util.Date"/>
+	<parameter name="PaymentName" class="java.lang.String"/>
+	<field name="quantity" class="java.math.BigDecimal"/>
+	<field name="unitPrice" class="java.math.BigDecimal"/>
+	<field name="discount" class="java.math.BigDecimal"/>
+	<field name="subTotal" class="java.math.BigDecimal"/>
+	<field name="productName" class="java.lang.String"/>
+	<field name="codeName" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="164" splitType="Stretch">
+			<staticText>
+				<reportElement x="448" y="0" width="122" height="20" uuid="57cc72ac-c42c-41f8-bb91-c5c858ce428f"/>
+				<textElement>
+					<font fontName="Tahoma" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ใบส่งสินค้า/ใบกำกับภาษี]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="0" width="279" height="20" uuid="0035e1eb-5774-4b65-8d25-f81a0087e788"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="20" width="279" height="20" uuid="a8839cdc-b408-48f8-8f9c-75e9a931ae0b"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Address1}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="3" y="0" width="100" height="74" uuid="4c77e36c-2bdb-4507-bfd4-082801dd244a"/>
+				<imageExpression><![CDATA[$P{Picture}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="40" width="279" height="34" uuid="14b8b2de-0a37-4a19-a759-4780a6ca586b"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Address2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="74" width="279" height="20" uuid="a11a6f0e-b691-4bf9-9978-3c45076a5f6f"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Phone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="94" width="279" height="20" uuid="a9c242c2-1910-40b9-a5fd-264436f5bd92"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fax}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="103" y="114" width="279" height="20" uuid="e26c8300-b860-457e-8a80-5b5577818f7c"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TaxNumber}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="395" y="20" width="175" height="66" uuid="6a282156-9170-4885-8ccd-c42817d0f00d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="395" y="20" width="68" height="20" uuid="c04f8f18-aaa1-4bb3-b0be-e33d2f6557ca"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่อ้างอิง #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="43" width="68" height="20" uuid="b0ff97a9-ac4c-444f-ac2e-55dc7b1251a9"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[วันที่ส่ง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="66" width="82" height="20" uuid="007de599-d631-4870-b488-42a7d9efb730"/>
+				<textElement>
+					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Payment Terms]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="463" y="20" width="107" height="20" uuid="ee01ff0e-8ac3-4cc9-a5ea-9b88ea726837"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OrderNumber}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="463" y="43" width="107" height="20" uuid="2dc7f02f-d7c4-45ec-a5e2-c2a2076a9eef"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{OrderDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="477" y="66" width="93" height="20" uuid="9538a0d6-4420-4eaf-9963-fb86c6a519c7"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{PaymentName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="39" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="101" y="0" width="44" height="20" uuid="ef6d1851-c3db-4c60-9e92-f773d6acf7f9"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="148" y="0" width="81" height="20" uuid="f5d96cdd-42f7-4980-a113-7472da15171f"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[unitPrice]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="0" width="78" height="20" uuid="1dac84f7-dbbf-42c7-8ab8-3fad929ad923"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[discount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="67" height="20" uuid="1c2180a9-2eef-4b68-866a-207bc23578bc"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[subTotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="100" height="20" uuid="7be9f789-f407-4798-8185-23f7b2b8f093"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[productName]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="1" width="100" height="20" uuid="8cc8aba8-4301-459e-b97f-500cdb7bb6a3"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[codeName]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField pattern="###0;(###0-)">
+				<reportElement x="101" y="0" width="44" height="20" uuid="ab254fa2-fe18-4f03-ae2c-f40fbf1837a2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="0" width="100" height="43" uuid="3b8526a9-e193-4009-a8db-a1e85277c931"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(-#,##0.00)">
+				<reportElement x="229" y="0" width="78" height="20" uuid="22334a0d-da4b-4611-b484-703fdf9e9710"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{discount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(-#,##0.00)">
+				<reportElement x="148" y="0" width="81" height="20" uuid="23b4b19b-d2bd-4ab0-ab81-8df49cd09ba5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unitPrice}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(-#,##0.00)">
+				<reportElement x="310" y="0" width="67" height="20" uuid="59b64bb4-2c9a-49c6-8d55-1c35531e3eae"/>
+				<textElement textAlignment="Right">
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="0" width="100" height="20" uuid="2ca0d057-3160-4b5d-b001-2577eec0d5ef"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codeName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
