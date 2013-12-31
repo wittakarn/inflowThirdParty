@@ -21,15 +21,80 @@
     <!-- ###################################################################### -->
     <!-- ## Center Layout -->
     <ui:define name="content">
-        <p:panel>
-            <p:outputLabel value="customer id : "/>
-            <p:inputText value="#{invoiceBean.baseCustomer.customerId}"></p:inputText>
-            <p:separator/>
-            <h:commandButton value="Show Report" actionListener="#{invoiceBean.manipolateData}"/>
+        <p:panel id="panel1">
+            <p:outputLabel value="ชื่อลูกกค้า:"/>
+            <p:inputText value="#{invoiceBean.customerFormSearch.baseCustomer.name}"></p:inputText>
+            <p:commandButton 
+                value="ค้นหารายการ" 
+                actionListener="#{invoiceBean.searchCustomerOrder}"
+                process=":formc:panel1"
+                update=":formc:panel2"/>
         </p:panel>
-        <p:panel>
-            
+        <p:panel id="panel2">
+            <p:dataTable 
+                id="cusOrder" 
+                var="order" 
+                value="#{invoiceBean.customerFormList}"
+                emptyMessage="ไม่มีรายการ"
+                paginator="true"
+                rows="10"
+                paginatorTemplate="{RowsPerPageDropdown} 
+                {FirstPageLink} 
+                {PreviousPageLink} 
+                {PageLinks} 
+                {CurrentPageReport} 
+                {NextPageLink} 
+                {LastPageLink}"
+                rowsPerPageTemplate="5,10,15 ,20, 25,30">
+
+                <f:facet name="header">  
+                    รายชื่อลูกค้า
+                </f:facet>
+
+                <p:column headerText="ชื่อลูกค้า">  
+                    #{order.baseCustomer.name}  
+                </p:column>  
+
+                <p:column headerText="วันที่สั่งสินค้า" >  
+                    #{order.soSalesOrder.orderDate} 
+                </p:column>  
+
+                <p:column headerText="Order number">  
+                    #{order.soSalesOrder.orderNumber} 
+                </p:column>  
+
+                <p:column headerText="ที่อยู่ 1">  
+                    #{order.soSalesOrder.billingAddress1} 
+                </p:column> 
+
+                <p:column headerText="ที่อยู่ 2">  
+                    #{order.soSalesOrder.billingAddress1} 
+                </p:column>
+
+                <p:column headerText="รายละเอียด">  
+                    #{order.soSalesOrder.orderRemarks} 
+                </p:column>
+
+                <p:column> 
+                    <p:commandButton
+                        process="@this"
+                        update="@this"
+                        value="พิมพ์"
+                        actionListener="#{invoiceBean.manipolateData}"
+                        immediate="true"
+                        > 
+                        <f:attribute name="customerSelected" value="#{order}" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>  
         </p:panel>
+        <p:commandButton
+            value="พิมพ์"
+            actionListener="#{invoiceBean.manipolateData}"
+            ajax="false"
+            >
+        </p:commandButton> 
     </ui:define>
 
 </ui:composition>

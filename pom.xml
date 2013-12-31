@@ -43,6 +43,14 @@
             </plugin>
         </plugins>
     </build>
+    
+    <repositories>
+        <repository>
+            <id>prime-repo</id>
+            <name>Prime Repo</name>
+            <url>http://repository.primefaces.org</url>
+        </repository>
+    </repositories>
 
     <profiles>
 
@@ -144,6 +152,7 @@
                 <my.org.glassfish.web>1.2.2</my.org.glassfish.web>
                 <my.javax.faces>2.1</my.javax.faces>
                 <my.commons.codec>20041127.091804</my.commons.codec>
+                <my.primefaces.theme>1.0.10</my.primefaces.theme>
             </properties>
 
             <build>
@@ -258,6 +267,11 @@
                     <version>${my.org.primefaces}</version>
                     <scope>compile</scope>
                 </dependency>
+                <dependency>  
+                    <groupId>org.primefaces.themes</groupId>  
+                    <artifactId>bootstrap</artifactId>  
+                    <version>${my.primefaces.theme}</version>  
+                </dependency>  
                 <dependency>
                     <groupId>org.glassfish</groupId>
                     <artifactId>javax.faces</artifactId>
