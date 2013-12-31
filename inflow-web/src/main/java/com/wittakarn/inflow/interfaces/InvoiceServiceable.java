@@ -6,6 +6,7 @@
 
 package com.wittakarn.inflow.interfaces;
 
+import com.wittakarn.inflow.entity.BASECompany;
 import com.wittakarn.inflow.entity.BASECustomer;
 import com.wittakarn.inflow.entity.SOSalesOrderLine;
 import com.wittakarn.inflow.model.CustomerForm;
@@ -23,5 +24,5 @@ public interface InvoiceServiceable extends Serializable{
     public BASECustomer serchCustomer(BASECustomer bc) throws Exception;
     public List<CustomerForm> getCustomerOrder(String name, Date date) throws Exception;
     public List<SOSalesOrderLine> getOrderList(Integer salesOrderId) throws Exception;
-    public byte[] getCompanyImage(Integer companyId) throws Exception;
+    public BASECompany getCompany(Integer companyId) throws Exception;
 }

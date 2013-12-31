@@ -5,7 +5,10 @@
  */
 package com.wittakarn.inflow.view;
 
+import com.summitthai.sdd.sys.util.StringUtils;
+import com.wittakarn.inflow.entity.BASECompany;
 import com.wittakarn.inflow.entity.BASECustomer;
+import com.wittakarn.inflow.entity.BASEFileAttachment;
 import com.wittakarn.inflow.entity.SOSalesOrder;
 import com.wittakarn.inflow.entity.SOSalesOrderLine;
 import com.wittakarn.inflow.interfaces.InvoiceServiceable;
@@ -14,7 +17,6 @@ import com.wittakarn.inflow.model.CustomerForm;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +41,7 @@ public class InvoiceBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final Logger logger = Logger.getLogger(InvoiceBean.class.getName());
-    
+
     private CustomerForm customerFormSearch;
     private List<CustomerForm> customerFormList;
 
@@ -54,23 +56,23 @@ public class InvoiceBean implements Serializable {
     public void init() {
         logger.info("Begin init...");
     }
-    
-    public void searchCustomerOrder(ActionEvent event){
+
+    public void searchCustomerOrder(ActionEvent event) {
         BASECustomer baseCustomer;
         SOSalesOrder soSalesOrder;
         List<CustomerForm> cusFormList;
-        try{
+        try {
             baseCustomer = getCustomerFormSearch().getBaseCustomer();
             soSalesOrder = getCustomerFormSearch().getSoSalesOrder();
             logger.info("baseCustomer.getCustomerId : " + baseCustomer.getCustomerId());
-            
+
             cusFormList = invoiceServiceable.getCustomerOrder(baseCustomer.getName(), soSalesOrder.getOrderDate());
             logger.info("cusFormList.size() : " + cusFormList.size());
             customerFormList = cusFormList;
-        }catch(Exception ex){
+        } catch (Exception ex) {
             logger.log(Level.SEVERE, "", ex);
-        }finally{
-            
+        } finally {
+
         }
     }
 
@@ -78,50 +80,59 @@ public class InvoiceBean implements Serializable {
         BASECustomer baseCustomer;
         SOSalesOrder soSalesOrder;
         CustomerForm customerFormSelected;
-        List<SOSalesOrderLine> orderLine;
-        byte[] image;
+        
         try {
             customerFormSelected = (CustomerForm) event.getComponent().getAttributes().get("customerSelected");
             logger.info("Begin manipolateData...");
             baseCustomer = customerFormSelected.getBaseCustomer();
             soSalesOrder = customerFormSelected.getSoSalesOrder();
-            
-            orderLine = invoiceServiceable.getOrderList(soSalesOrder.getSalesOrderId());
-            image = invoiceServiceable.getCompanyImage(1);
-            
-            for (Iterator<SOSalesOrderLine> it = orderLine.iterator(); it.hasNext();) {
-                SOSalesOrderLine sOSalesOrderLine = it.next();
-                sOSalesOrderLine.refreshData();
-            }
-            
-            HashMap<String, Object> parameters = new HashMap<>();
-            parameters.put("Name", baseCustomer.getName());
-            parameters.put("Address1", baseCustomer.getAddress1());
-            parameters.put("Address2", baseCustomer.getAddress2());
-            parameters.put("Picture", new ByteArrayInputStream(image));
-            
-            logger.log(Level.INFO, "parameters.get(\"Name\") : {0}", parameters.get("Name"));
 
-            JasperPrint print = JasperContext.initJasper("D:\\JavaProjects\\ireportFiles\\reportInvoice.jasper", parameters, orderLine);
+            JasperPrint print = JasperContext.initJasper("D:\\JavaProjects\\ireportFiles\\reportInvoice.jasper", createParameter(baseCustomer, soSalesOrder), createList(soSalesOrder));
             JasperContext.printPDF(print, getServletOutputStream());
-            FacesContext.getCurrentInstance().responseComplete(); 
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "", ex);
-        }finally{
+        } finally {
             baseCustomer = null;
             soSalesOrder = null;
             customerFormSelected = null;
-            orderLine = null;
-            image = null;
             logger.info("End manipolateData...");
         }
+    }
+
+    private List<SOSalesOrderLine> createList(SOSalesOrder soSalesOrder) throws Exception {
+        List<SOSalesOrderLine> orderLine = invoiceServiceable.getOrderList(soSalesOrder.getSalesOrderId());
+        for (SOSalesOrderLine sOSalesOrderLine : orderLine) {
+            sOSalesOrderLine.refreshData();
+        }
+        return orderLine;
+    }
+
+    private HashMap<String, Object> createParameter(BASECustomer baseCustomer, SOSalesOrder soSalesOrder) throws Exception {
+        BASECompany company = invoiceServiceable.getCompany(1);
+        BASEFileAttachment fileAttachment = company.getPictureFileAttachmentId();
+        String[] content = {baseCustomer.getAddress2(), baseCustomer.getCity(), baseCustomer.getState(), baseCustomer.getCountry(), baseCustomer.getPostalCode()}; 
+        HashMap<String, Object> parameters = new HashMap<>();
+        
+        parameters.put("Picture", new ByteArrayInputStream(fileAttachment.getData()));
+        parameters.put("Name", baseCustomer.getName());
+        parameters.put("Address1", baseCustomer.getAddress1());
+        parameters.put("Address2", StringUtils.concatString(content));
+        parameters.put("Phone", company.getPhone());
+        parameters.put("Fax", baseCustomer.getFax());
+        parameters.put("TaxNumber", company.getTaxNumber());
+        parameters.put("OrderNumber", soSalesOrder.getOrderNumber());
+        parameters.put("OrderDate", soSalesOrder.getOrderDate());
+        parameters.put("PaymentName", soSalesOrder.getPaymentTermsId().getName());
+
+        return parameters;
     }
 
     private ServletOutputStream getServletOutputStream() throws Exception {
         FacesContext faceContext = FacesContext.getCurrentInstance();
         HttpServletResponse response = (HttpServletResponse) faceContext.getExternalContext().getResponse();
         //response.setHeader("Content-disposition", "attachment; filename=invoice.pdf");
-        
+
         return response.getOutputStream();
     }
 
@@ -138,7 +149,7 @@ public class InvoiceBean implements Serializable {
     public void setCustomerFormSearch(CustomerForm customerFormSearch) {
         this.customerFormSearch = customerFormSearch;
     }
-    
+
     /**
      * @return the customerFormList
      */

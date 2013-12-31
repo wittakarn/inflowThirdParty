@@ -69,7 +69,7 @@ public class InvoiceService implements InvoiceServiceable {
     }
     
     @Override
-    public byte[] getCompanyImage(Integer companyId) throws Exception{
-        return em.find(BASECompany.class, companyId).getPictureFileAttachmentId().getData();
+    public BASECompany getCompany(Integer companyId) throws Exception{
+        return em.find(BASECompany.class, companyId);
     }
 }
