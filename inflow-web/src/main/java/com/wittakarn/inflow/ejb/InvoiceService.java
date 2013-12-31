@@ -5,6 +5,7 @@
  */
 package com.wittakarn.inflow.ejb;
 
+import com.wittakarn.inflow.entity.BASECompany;
 import com.wittakarn.inflow.entity.BASECustomer;
 import com.wittakarn.inflow.entity.SOSalesOrder;
 import com.wittakarn.inflow.entity.SOSalesOrderLine;
@@ -65,5 +66,10 @@ public class InvoiceService implements InvoiceServiceable {
     @Override
     public List<SOSalesOrderLine> getOrderList(Integer salesOrderId) throws Exception {
         return SOSalesOrderLineQuery.getOrderLineList(em, salesOrderId);
+    }
+    
+    @Override
+    public byte[] getCompanyImage(Integer companyId) throws Exception{
+        return em.find(BASECompany.class, companyId).getPictureFileAttachmentId().getData();
     }
 }

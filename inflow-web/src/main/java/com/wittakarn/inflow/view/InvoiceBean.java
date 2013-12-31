@@ -11,6 +11,7 @@ import com.wittakarn.inflow.entity.SOSalesOrderLine;
 import com.wittakarn.inflow.interfaces.InvoiceServiceable;
 import com.wittakarn.inflow.jasper.JasperContext;
 import com.wittakarn.inflow.model.CustomerForm;
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -78,6 +79,7 @@ public class InvoiceBean implements Serializable {
         SOSalesOrder soSalesOrder;
         CustomerForm customerFormSelected;
         List<SOSalesOrderLine> orderLine;
+        byte[] image;
         try {
             customerFormSelected = (CustomerForm) event.getComponent().getAttributes().get("customerSelected");
             logger.info("Begin manipolateData...");
@@ -85,6 +87,7 @@ public class InvoiceBean implements Serializable {
             soSalesOrder = customerFormSelected.getSoSalesOrder();
             
             orderLine = invoiceServiceable.getOrderList(soSalesOrder.getSalesOrderId());
+            image = invoiceServiceable.getCompanyImage(1);
             
             for (Iterator<SOSalesOrderLine> it = orderLine.iterator(); it.hasNext();) {
                 SOSalesOrderLine sOSalesOrderLine = it.next();
@@ -95,6 +98,7 @@ public class InvoiceBean implements Serializable {
             parameters.put("Name", baseCustomer.getName());
             parameters.put("Address1", baseCustomer.getAddress1());
             parameters.put("Address2", baseCustomer.getAddress2());
+            parameters.put("Picture", new ByteArrayInputStream(image));
             
             logger.log(Level.INFO, "parameters.get(\"Name\") : {0}", parameters.get("Name"));
 
@@ -104,6 +108,11 @@ public class InvoiceBean implements Serializable {
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "", ex);
         }finally{
+            baseCustomer = null;
+            soSalesOrder = null;
+            customerFormSelected = null;
+            orderLine = null;
+            image = null;
             logger.info("End manipolateData...");
         }
     }
