@@ -42,7 +42,9 @@ public class BASECustomerQuery implements Serializable {
             query = em.createQuery(sb.toString());
 
             if (date != null) {
+                date.setYear(113);
                 query.setParameter("date", date);
+                logger.info("date :".concat(date.toString()));
             }
 
             return query.getResultList();

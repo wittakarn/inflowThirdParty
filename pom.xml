@@ -269,7 +269,7 @@
                 </dependency>
                 <dependency>  
                     <groupId>org.primefaces.themes</groupId>  
-                    <artifactId>bootstrap</artifactId>  
+                    <artifactId>blitzer</artifactId>  
                     <version>${my.primefaces.theme}</version>  
                 </dependency>  
                 <dependency>

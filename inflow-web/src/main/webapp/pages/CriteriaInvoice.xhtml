@@ -23,12 +23,22 @@
     <ui:define name="content">
         <p:panel id="panel1">
             <p:outputLabel value="ชื่อลูกกค้า:"/>
-            <p:inputText value="#{invoiceBean.customerFormSearch.baseCustomer.name}"></p:inputText>
+            <p:inputText 
+                id="name"
+                value="#{invoiceBean.customerName}"
+                >
+            </p:inputText>
+            <p:outputLabel style="padding-left: 15px;" value="วันที่:"/>
+            <p:calendar 
+                id="orderDate"
+                size="10"
+                value="#{invoiceBean.orderDate}">
+            </p:calendar>
             <p:commandButton 
                 value="ค้นหารายการ" 
                 actionListener="#{invoiceBean.searchCustomerOrder}"
-                process=":formc:panel1"
-                update=":formc:panel2"/>
+                process="@this,name,orderDate"
+                update="@this,:formc:panel2"/>
         </p:panel>
         <p:panel id="panel2">
             <p:dataTable 
@@ -37,7 +47,7 @@
                 value="#{invoiceBean.customerFormList}"
                 emptyMessage="ไม่มีรายการ"
                 paginator="true"
-                rows="10"
+                rows="5"
                 paginatorTemplate="{RowsPerPageDropdown} 
                 {FirstPageLink} 
                 {PreviousPageLink} 
@@ -64,20 +74,20 @@
                 </p:column>  
 
                 <p:column headerText="ที่อยู่ 1">  
-                    #{order.soSalesOrder.billingAddress1} 
+                    #{order.baseCustomer.address1} 
                 </p:column> 
 
                 <p:column headerText="ที่อยู่ 2">  
-                    #{order.soSalesOrder.billingAddress1} 
+                    #{order.baseCustomer.address2} 
                 </p:column>
 
                 <p:column headerText="รายละเอียด">  
                     #{order.soSalesOrder.orderRemarks} 
                 </p:column>
 
-                <p:column> 
+                <p:column headerText="พิมพ์"> 
                     <p:commandButton
-                        value="พิมพ์"
+                        icon="ui-icon-document"
                         actionListener="#{invoiceBean.manipolateData}"
                         ajax="false"
                         onclick="this.form.target='_blank'"

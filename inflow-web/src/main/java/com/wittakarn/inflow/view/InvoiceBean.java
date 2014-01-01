@@ -16,6 +16,7 @@ import com.wittakarn.inflow.jasper.JasperContext;
 import com.wittakarn.inflow.model.CustomerForm;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,14 +43,14 @@ public class InvoiceBean implements Serializable {
 
     private static final Logger logger = Logger.getLogger(InvoiceBean.class.getName());
 
-    private CustomerForm customerFormSearch;
+    private String customerName;
+    private Date orderDate;
     private List<CustomerForm> customerFormList;
 
     @EJB
     private InvoiceServiceable invoiceServiceable;
 
     public InvoiceBean() {
-        customerFormSearch = new CustomerForm();
     }
 
     @PostConstruct
@@ -62,17 +63,17 @@ public class InvoiceBean implements Serializable {
         SOSalesOrder soSalesOrder;
         List<CustomerForm> cusFormList;
         try {
-            baseCustomer = getCustomerFormSearch().getBaseCustomer();
-            soSalesOrder = getCustomerFormSearch().getSoSalesOrder();
-            logger.info("baseCustomer.getCustomerId : " + baseCustomer.getCustomerId());
-
-            cusFormList = invoiceServiceable.getCustomerOrder(baseCustomer.getName(), soSalesOrder.getOrderDate());
+            logger.info("Begin searchCustomerOrder...");
+            cusFormList = invoiceServiceable.getCustomerOrder(getCustomerName(), getOrderDate());
             logger.info("cusFormList.size() : " + cusFormList.size());
             customerFormList = cusFormList;
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "", ex);
         } finally {
-
+            baseCustomer = null;
+            soSalesOrder = null;
+            cusFormList = null;
+            logger.info("End searchCustomerOrder...");
         }
     }
 
@@ -80,7 +81,7 @@ public class InvoiceBean implements Serializable {
         BASECustomer baseCustomer;
         SOSalesOrder soSalesOrder;
         CustomerForm customerFormSelected;
-        
+
         try {
             customerFormSelected = (CustomerForm) event.getComponent().getAttributes().get("customerSelected");
             logger.info("Begin manipolateData...");
@@ -111,9 +112,9 @@ public class InvoiceBean implements Serializable {
     private HashMap<String, Object> createParameter(BASECustomer baseCustomer, SOSalesOrder soSalesOrder) throws Exception {
         BASECompany company = invoiceServiceable.getCompany(1);
         BASEFileAttachment fileAttachment = company.getPictureFileAttachmentId();
-        String[] content = {baseCustomer.getAddress2(), baseCustomer.getCity(), baseCustomer.getState(), baseCustomer.getCountry(), baseCustomer.getPostalCode()}; 
+        String[] content = {baseCustomer.getAddress2(), baseCustomer.getCity(), baseCustomer.getState(), baseCustomer.getCountry(), baseCustomer.getPostalCode()};
         HashMap<String, Object> parameters = new HashMap<>();
-        
+
         parameters.put("Picture", new ByteArrayInputStream(fileAttachment.getData()));
         parameters.put("Name", baseCustomer.getName());
         parameters.put("Address1", baseCustomer.getAddress1());
@@ -124,6 +125,8 @@ public class InvoiceBean implements Serializable {
         parameters.put("OrderNumber", soSalesOrder.getOrderNumber());
         parameters.put("OrderDate", soSalesOrder.getOrderDate());
         parameters.put("PaymentName", soSalesOrder.getPaymentTermsId().getName());
+        parameters.put("OrderRemarks", soSalesOrder.getOrderRemarks());
+        parameters.put("OrderTax1", soSalesOrder.getOrderTax1());
 
         return parameters;
     }
@@ -134,20 +137,6 @@ public class InvoiceBean implements Serializable {
         //response.setHeader("Content-disposition", "attachment; filename=invoice.pdf");
 
         return response.getOutputStream();
-    }
-
-    /**
-     * @return the customerFormSearch
-     */
-    public CustomerForm getCustomerFormSearch() {
-        return customerFormSearch;
-    }
-
-    /**
-     * @param customerFormSearch the customerFormSearch to set
-     */
-    public void setCustomerFormSearch(CustomerForm customerFormSearch) {
-        this.customerFormSearch = customerFormSearch;
     }
 
     /**
@@ -162,6 +151,34 @@ public class InvoiceBean implements Serializable {
      */
     public void setCustomerFormList(List<CustomerForm> customerFormList) {
         this.customerFormList = customerFormList;
+    }
+
+    /**
+     * @return the customerName
+     */
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    /**
+     * @param customerName the customerName to set
+     */
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    /**
+     * @return the orderDate
+     */
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    /**
+     * @param orderDate the orderDate to set
+     */
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
 }
