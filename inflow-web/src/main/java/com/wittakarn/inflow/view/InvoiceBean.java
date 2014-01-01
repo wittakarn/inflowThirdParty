@@ -16,6 +16,8 @@ import com.wittakarn.inflow.model.CustomerForm;
 import com.wittakarn.inflow.util.StringUtils;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,8 +61,6 @@ public class InvoiceBean implements Serializable {
     }
 
     public void searchCustomerOrder(ActionEvent event) {
-        BASECustomer baseCustomer;
-        SOSalesOrder soSalesOrder;
         List<CustomerForm> cusFormList;
         try {
             logger.info("Begin searchCustomerOrder...");
@@ -70,8 +70,6 @@ public class InvoiceBean implements Serializable {
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "", ex);
         } finally {
-            baseCustomer = null;
-            soSalesOrder = null;
             cusFormList = null;
             logger.info("End searchCustomerOrder...");
         }
@@ -88,7 +86,11 @@ public class InvoiceBean implements Serializable {
             baseCustomer = customerFormSelected.getBaseCustomer();
             soSalesOrder = customerFormSelected.getSoSalesOrder();
 
-            JasperPrint print = JasperContext.initJasper("D:\\JavaProjects\\ireportFiles\\reportInvoice.jasper", createParameter(baseCustomer, soSalesOrder), createList(soSalesOrder));
+            HashMap<String, Object> parameters = new HashMap<>();
+            List<SOSalesOrderLine> orderLine = createList(parameters, soSalesOrder);
+            createParameter(parameters, baseCustomer, soSalesOrder);
+            
+            JasperPrint print = JasperContext.initJasper("D:\\JavaProjects\\ireportFiles\\reportInvoice.jasper", parameters, orderLine);
             JasperContext.printPDF(print, getServletOutputStream());
             FacesContext.getCurrentInstance().responseComplete();
         } catch (Exception ex) {
@@ -101,34 +103,50 @@ public class InvoiceBean implements Serializable {
         }
     }
 
-    private List<SOSalesOrderLine> createList(SOSalesOrder soSalesOrder) throws Exception {
+    private List<SOSalesOrderLine> createList(HashMap<String, Object> parameters, SOSalesOrder soSalesOrder) throws Exception {
+        BigDecimal pp1 = BigDecimal.ZERO, pp2 = BigDecimal.ZERO;
+
         List<SOSalesOrderLine> orderLine = invoiceServiceable.getOrderList(soSalesOrder.getSalesOrderId());
         for (SOSalesOrderLine sOSalesOrderLine : orderLine) {
+            if (sOSalesOrderLine.getItemTaxCodeId().getItemTaxCodeId().equals(100)) {
+                pp2 = pp2.add(sOSalesOrderLine.getSubTotal());
+            } else {
+                pp1 = pp1.add(sOSalesOrderLine.getSubTotal());
+            }
+
             sOSalesOrderLine.refreshData();
         }
+        
+        parameters.put("pp1", pp1);
+        parameters.put("pp2", pp2);
+        
         return orderLine;
     }
 
-    private HashMap<String, Object> createParameter(BASECustomer baseCustomer, SOSalesOrder soSalesOrder) throws Exception {
+    private void createParameter(HashMap<String, Object> parameters, BASECustomer baseCustomer, SOSalesOrder soSalesOrder) throws Exception {
         BASECompany company = invoiceServiceable.getCompany(1);
         BASEFileAttachment fileAttachment = company.getPictureFileAttachmentId();
-        String[] content = {baseCustomer.getAddress2(), baseCustomer.getCity(), baseCustomer.getState(), baseCustomer.getCountry(), baseCustomer.getPostalCode()};
-        HashMap<String, Object> parameters = new HashMap<>();
+        String[] companyAddressContent = {company.getAddress2(), company.getCity(), company.getState(), company.getCountry(), company.getPostalCode()};
+        String[] customerAddressContent = {baseCustomer.getAddress2(), baseCustomer.getCity(), baseCustomer.getState()};
+        String[] customerAddressContentAddition = {baseCustomer.getCountry(), baseCustomer.getPostalCode()};
 
         parameters.put("Picture", new ByteArrayInputStream(fileAttachment.getData()));
-        parameters.put("Name", baseCustomer.getName());
-        parameters.put("Address1", baseCustomer.getAddress1());
-        parameters.put("Address2", StringUtils.concatString(content));
+        parameters.put("Name", company.getName());
+        parameters.put("Address1", company.getAddress1());
+        parameters.put("Address2", StringUtils.concatString(companyAddressContent));
         parameters.put("Phone", company.getPhone());
-        parameters.put("Fax", baseCustomer.getFax());
+        parameters.put("Fax", company.getFax());
         parameters.put("TaxNumber", company.getTaxNumber());
+        parameters.put("BillingAddress1", baseCustomer.getAddress1());
+        parameters.put("BillingAddress2", StringUtils.concatString(customerAddressContent));
+        parameters.put("BillingCountry", StringUtils.concatString(customerAddressContentAddition));
+        parameters.put("BillingAddressRemarks", baseCustomer.getBillingAddressRemarks());
         parameters.put("OrderNumber", soSalesOrder.getOrderNumber());
         parameters.put("OrderDate", soSalesOrder.getOrderDate());
         parameters.put("PaymentName", soSalesOrder.getPaymentTermsId().getName());
         parameters.put("OrderRemarks", soSalesOrder.getOrderRemarks());
         parameters.put("OrderTax1", soSalesOrder.getOrderTax1());
-
-        return parameters;
+        parameters.put("OrderTotal", soSalesOrder.getOrderTotal());
     }
 
     private ServletOutputStream getServletOutputStream() throws Exception {

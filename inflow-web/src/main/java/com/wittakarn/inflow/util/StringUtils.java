@@ -22,7 +22,7 @@ public class StringUtils {
         String content = "";
         for (String s : str) {
             if (!StringUtils.isNullOrEmpty(s)) {
-                content += s;
+                content += s + ", ";
             }
         }
         return content;
