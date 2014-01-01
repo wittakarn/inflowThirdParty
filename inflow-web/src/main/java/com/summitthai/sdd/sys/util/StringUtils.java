@@ -7,12 +7,26 @@ import java.text.NumberFormat;
 import java.util.StringTokenizer;
 
 /**
- * * Copyright (c) 2002-2005 Summit Computer Co., Ltd. 109 Surawong Road,
- * Bangruk, Bangkok, 10500, Thailand. All Rights Reserved.
+ * * Copyright (c) 2014 Wittakarn Keeratichayakorn. All Rights Reserved.
  *
  * @version 1.0
  */
 public class StringUtils {
+
+    /**
+     *
+     * @param str is a array of string, which provide for concat by waiving null or empty string.
+     * @return string.
+     */
+    public static String concatString(String[] str) {
+        String content = "";
+        for (String s : str) {
+            if (!StringUtils.isNullOrEmpty(s)) {
+                content += s;
+            }
+        }
+        return content;
+    }
 
     /**
      *
@@ -37,48 +51,6 @@ public class StringUtils {
         } finally {
 
         }
-    }
-
-    /**
-     * ทำการแบ่ง input ตาม separator <BR>
-     * Ex <BR>
-     * String out[] = StringUtils.split("AA|BB|C","|"); <BR>
-     * out.length => 3 <BR>
-     * out[0] => "AA" <BR>
-     * out[1] => "BB" <BR>
-     * out[2] => "C"
-     *
-     * @param input
-     * @param separator
-     * @return String[]
-     */
-    public static String[] split(String input, char separator) {
-        return split(input, String.valueOf(separator));
-    }
-
-    /**
-     * ทำการแบ่ง input ตาม separator <BR>
-     * Ex <BR>
-     * String out[] = StringUtils.split("AA||BB||C","||"); <BR>
-     * out.length => 3 <BR>
-     * out[0] => "AA" <BR>
-     * out[1] => "BB" <BR>
-     * out[2] => "C"
-     *
-     * @param input
-     * @param separator
-     * @return String[]
-     */
-    public static String[] split(String input, String separator) {
-        TokenizerUtils token;
-        token = new TokenizerUtils(input, separator);
-        String[] group = new String[token.countTokens()];
-        int i = 0;
-        while (token.hasMoreElements()) {
-            group[i] = (String) token.nextElement();
-            i++;
-        }
-        return group;
     }
 
     /**
@@ -578,8 +550,7 @@ public class StringUtils {
 
     /**
      * Convert filed to Name of Columb Exam. referenceValue1Text ==>
-     * REFERENCE_VALUE1_TEXT
-     * *
+     * REFERENCE_VALUE1_TEXT *
      */
     public static String convertFieldToUpperCase(String fieldName, String className) {
         char[] subFieldName = fieldName.toCharArray();
@@ -624,15 +595,6 @@ public class StringUtils {
      */
     public static char ASCIIToChar(final int ascii) {
         return (char) ascii;
-    }
-    
-    public static String concatString(String[] str){
-        String content = "";
-        for (String s : str) {
-            if(!StringUtils.isNullOrEmpty(s))
-                content += s;
-        }
-        return content;
     }
 
 }
