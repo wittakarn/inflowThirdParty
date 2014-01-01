@@ -5,7 +5,7 @@
  */
 package com.wittakarn.inflow.query;
 
-import com.summitthai.sdd.sys.util.StringUtils;
+import com.wittakarn.inflow.util.StringUtils;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

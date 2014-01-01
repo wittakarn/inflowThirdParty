@@ -1,4 +1,4 @@
-package com.summitthai.sdd.sys.util;
+package com.wittakarn.inflow.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

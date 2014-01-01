@@ -5,7 +5,6 @@
  */
 package com.wittakarn.inflow.view;
 
-import com.summitthai.sdd.sys.util.StringUtils;
 import com.wittakarn.inflow.entity.BASECompany;
 import com.wittakarn.inflow.entity.BASECustomer;
 import com.wittakarn.inflow.entity.BASEFileAttachment;
@@ -14,6 +13,7 @@ import com.wittakarn.inflow.entity.SOSalesOrderLine;
 import com.wittakarn.inflow.interfaces.InvoiceServiceable;
 import com.wittakarn.inflow.jasper.JasperContext;
 import com.wittakarn.inflow.model.CustomerForm;
+import com.wittakarn.inflow.util.StringUtils;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.Date;
